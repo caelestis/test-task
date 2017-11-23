@@ -1,0 +1,8 @@
+{
+    "name": "root/test_task",
+    "type": "library",
+    "require-dev": {
+        "dotzero/amocrm": "0.3.*"
+    },
+    "require": {}
+}
