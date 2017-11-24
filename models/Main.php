@@ -91,9 +91,8 @@ class Main extends Model
                 $leads = self::$amo->lead->apiList([
                     'responsible_user_id' => $user['id'],
                 ]);
-
-                $userLeads = [];
                 $userLeadsTmp = [];
+
                 foreach ($leads as $lead) {
                     $dateCreate = $lead['date_create'];
                     $todayBegin = mktime(0,0,0);
@@ -101,13 +100,11 @@ class Main extends Model
 
                     if ($dateCreate >= $todayBegin && $dateCreate <= $todayEnd) {
                         if (!array_key_exists($lead['main_contact_id'], $userLeads)) {
-                            $userLeadsTmp[$lead['main_contact_id']]++;
-                        } else {
                             $userLeadsTmp[$lead['main_contact_id']] = 1;
                         }
                     }
                 }
-                $userLeads[$user['id']] = count($userLeads);
+                $userLeads[$user['id']] = count($userLeadsTmp);
             }
         }
 
@@ -119,7 +116,7 @@ class Main extends Model
         $index = key($firstIndex);
         $min   = reset($firstIndex);
         foreach ($userLeads as $key => $value) {
-            if ($value > $min) {
+            if ($value < $min) {
                 $index = $key;
                 $min = $value;
             }
